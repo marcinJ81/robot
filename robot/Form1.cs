@@ -288,7 +288,7 @@ namespace robot
            // serialPort.DiscardInBuffer();
             string fullCommand = cmd_to_send + valToSend.ToString()+ "\x03"; // Tworzenie pełnej komendy
             string sendingdata = robotCommunicationSend.SendData(fullCommand); // Wysyłanie komendy do robota
-
+            serialPort.DiscardInBuffer();
             Thread.Sleep(8000);
             string resultFromPort = sharedData.SharedVariable;
             if (string.IsNullOrEmpty(resultFromPort))
