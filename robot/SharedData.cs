@@ -10,6 +10,24 @@ namespace robot
     {
         private object lockObject = new object();
         private string sharedVariable;
+        private bool isSpecialString;
+
+        public bool IsSpecialString
+        {
+            get
+            {
+                Monitor.Enter(lockObject);
+                bool value = isSpecialString;
+                Monitor.Exit(lockObject);
+                return isSpecialString;
+            }
+            set
+            {
+                Monitor.Enter(lockObject);
+                isSpecialString = value;
+                Monitor.Exit(lockObject);
+            }
+        }
 
         public string SharedVariable
         {

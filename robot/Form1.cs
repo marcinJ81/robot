@@ -134,9 +134,11 @@ namespace robot
         {
             try
             {
-                string sPC_Command = "\x02MW, 1 PC_COMMAND 0 ";
-                int sPC_ipccommandval = 0xaabbcc;
-                WriteToRobot(sPC_Command,sPC_ipccommandval);
+                //string sPC_Command = "\x02MW, 1 PC_COMMAND 0 ";
+                //int sPC_ipccommandval = 0xaabbcc;
+                //WriteToRobot(sPC_Command,sPC_ipccommandval);
+
+                ReadRobotSystemStatus();
             }
             catch (Exception ex)
             {
@@ -157,33 +159,26 @@ namespace robot
                         int bytesRead = serialPort.Read(buffer, 0, bytesToRead);
 
                         int countZero = 0;
-                        bool ch03 = false;
+                        sharedData.IsSpecialString = false;
                         string str4 = string.Join("", buffer.Select(b => b.ToString("X2")));
                         if (buffer.Length == 256)
                         {
                             for (int i = 0; i < buffer.Length - 1; i++)
                             {
-                                if (buffer[i] == 0x00)
+                                if (buffer[i] == 0x20)
                                 {
                                     countZero++;
                                 }
                                 if (buffer[255] == 0x03 && countZero == 255)
                                 {
-                                    ch03 = true;
+                                    sharedData.IsSpecialString = true;
                                     break;
                                 }
                             }
                         }
-                        if(countZero == 255 && ch03)
-						{
-                            sharedData.SharedVariable = System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        }
-                        else
-						{
-							if (buffer[0] != 0x00 && buffer.Length > 1)
-							{
-                                sharedData.SharedVariable = System.Text.Encoding.Default.GetString(buffer, 0, bytesRead);
-                            }
+                        if (buffer[0] != 0x00 && buffer.Length > 1)
+                        {
+                            sharedData.SharedVariable = System.Text.Encoding.Default.GetString(buffer, 0, bytesRead);
                         }
                     }
                 }
@@ -307,8 +302,7 @@ namespace robot
             string sendingdata = robotCommunicationSend.SendData(sSF); // Wysyłanie komendy do robota
             Thread.Sleep(4000);
 
-            string resultFromPort = sharedData.SharedVariable;
-            if(resultFromPort.Contains("\u0003"))
+            if(sharedData.IsSpecialString)
 			{
                 CLearBuffor();
                 robotCommunicationSend.SendData(sOK);
