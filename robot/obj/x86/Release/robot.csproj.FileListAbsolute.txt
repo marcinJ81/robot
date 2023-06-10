@@ -1,0 +1,10 @@
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\bin\Release\robot.exe.config
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\bin\Release\robot.exe
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\bin\Release\robot.pdb
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\obj\x86\Release\robot.csproj.AssemblyReference.cache
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\obj\x86\Release\robot.Form1.resources
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\obj\x86\Release\robot.Properties.Resources.resources
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\obj\x86\Release\robot.csproj.GenerateResource.cache
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\obj\x86\Release\robot.csproj.CoreCompileInputs.cache
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\obj\x86\Release\robot.exe
+C:\Users\marcin.juranek\Documents\Visual Studio 2010\Projects\robot_3.5_framework\robot\obj\x86\Release\robot.pdb
