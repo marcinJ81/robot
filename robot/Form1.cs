@@ -134,12 +134,12 @@ namespace robot
         {
             try
             {
-                //string sPC_Command = "\x02MW, 1 PC_COMMAND 0 ";
-                //int sPC_ipccommandval = 0xaabbcc;
-                //WriteToRobot(sPC_Command,sPC_ipccommandval);
+				string sPC_Command = "\x02MW, 1 PC_COMMAND 0 ";
+				int sPC_ipccommandval = 0xaabbcc;
+				WriteToRobot(sPC_Command, sPC_ipccommandval);
 
-                ReadRobotSystemStatus();
-            }
+				//ReadRobotSystemStatus();
+			}
             catch (Exception ex)
             {
                 MessageBox.Show("Błąd: " + ex.Message);
@@ -258,19 +258,30 @@ namespace robot
             AutoRestart();
         }
 
-        
-       
+        private void btn_speedUp_Click(object sender, EventArgs e)
+        {
+            string sPC_Command = "\x02MW, 1 PCSPEED 0 ";
+            int sPC_ipccommandval = 0x01;
+            WriteToRobot(sPC_Command, sPC_ipccommandval);
+        }
+
 
         // Funkcja odczytu danych z robota
-        private string ReadFromRobot(string cmd_to_send)
+        private string ReadFromRobot(string cmd_to_send, ref string result)
         {
-            string sResult = string.Empty;
-            if(!String.IsNullOrEmpty(sharedData.SharedVariable))
-			{
-                string ss = "555";
-			}
-            //  _CommSendString(cmd_to_send); // Wysyłanie komendy do robota
+            CLearBuffor();
+            robotCommunicationSend.SendData(cmd_to_send);
 
+            Thread.Sleep(4000);
+            string resultFromPort = sharedData.SharedVariable;
+            if(cmd_to_send != sSF)
+			{
+                return resultFromPort;
+			}
+			else
+            {
+                //$sReturnedVal = _CommReadByteArray(DllStructGetPtr($aSF_Ret), 255, 0)
+            }
             //// Oczekiwanie na odpowiedź i odczytanie wartości
             //if (_CommReadString(ref sResult))
             //{
@@ -292,7 +303,7 @@ namespace robot
             //	sResult = string.Empty;
             //}
 
-            return sResult;
+            return string.Empty;
         }
 
         // Funkcja odczytu statusu systemu robota
@@ -311,13 +322,6 @@ namespace robot
 			{
                 UpdateTextBox("\x09" + "ReadRobotSystemStatus" + "\x09" + sSF + "\x09");
             }
-        }
-
-		private void btn_speedUp_Click(object sender, EventArgs e)
-		{
-            string sPC_Command = "\x02MW, 1 PCSPEED 0 ";
-            int sPC_ipccommandval = 0x01;
-            WriteToRobot(sPC_Command, sPC_ipccommandval);
         }
 
 		// Funkcja wysyłania komend do robota
