@@ -158,28 +158,32 @@ namespace robot
 
                         int countZero = 0;
                         bool ch03 = false;
-                        if (buffer.Length == 256)
-						{
+                        if (buffer.Length == 10)
+                        //if (buffer.Length == 256)
+                        {
                             for (int i = 0; i < buffer.Length - 1; i++)
                             {
                                 if (buffer[i] == 0x00)
                                 {
                                     countZero++;
                                 }
-                                if (buffer[255] == 0x03 && countZero == 255)
+                                if (buffer[9] == 0x03 && countZero == 9)
                                 {
                                     ch03 = true;
                                     break;
                                 }
                             }
                         }
-                        if(countZero == 255 && ch03)
+                        if(countZero == 9 && ch03)
 						{
                             sharedData.SharedVariable = System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
                         }
                         else
 						{
-                            sharedData.SharedVariable = System.Text.Encoding.Default.GetString(buffer, 0, bytesRead);
+							if (buffer[0] != 0x00 && buffer.Length > 1)
+							{
+                                sharedData.SharedVariable = System.Text.Encoding.Default.GetString(buffer, 0, bytesRead);
+                            }
                         }
                     }
                 }
@@ -297,10 +301,22 @@ namespace robot
         }
 
         // Funkcja odczytu statusu systemu robota
-        public string ReadRobotSystemStatus()
+        public void ReadRobotSystemStatus()
         {
-            string sResult = ReadFromRobot(sPCROBSTS); // Wysłanie komendy odczytu statusu
-            return sResult;
+            CLearBuffor();
+            string sendingdata = robotCommunicationSend.SendData(sSF); // Wysyłanie komendy do robota
+            Thread.Sleep(4000);
+
+            string resultFromPort = sharedData.SharedVariable;
+            if(resultFromPort.Contains("\u0003"))
+			{
+                CLearBuffor();
+                robotCommunicationSend.SendData(sOK);
+            }
+            else
+			{
+                UpdateTextBox("\x09" + "ReadRobotSystemStatus" + "\x09" + sSF + "\x09");
+            }
         }
 
 		private void btn_speedUp_Click(object sender, EventArgs e)
@@ -313,8 +329,7 @@ namespace robot
 		// Funkcja wysyłania komend do robota
 		public void WriteToRobot(string cmd_to_send, int valToSend)
         {
-            serialPort.DiscardInBuffer();
-            serialPort.DiscardOutBuffer();
+            CLearBuffor();
             string fullCommand = cmd_to_send + valToSend.ToString()+ "\x03"; // Tworzenie pełnej komendy
             string sendingdata = robotCommunicationSend.SendData(fullCommand); // Wysyłanie komendy do robota
             
@@ -343,6 +358,11 @@ namespace robot
 			{
                 //co jezeli zawiera?
             }
+        }
+        private void CLearBuffor()
+		{
+            serialPort.DiscardInBuffer();
+            serialPort.DiscardOutBuffer();
         }
     }
 }
