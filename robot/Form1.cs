@@ -115,6 +115,8 @@ namespace robot
                 string[] listaPort = SerialPort.GetPortNames();              
                 serialPort = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
                 serialPort.Open();
+                serialPort.DiscardInBuffer();
+                serialPort.DiscardOutBuffer();
                 // Otwarcie portu szeregowego
                 robotCommunicationSend = new SendDateToSerial(serialPort);
 
@@ -150,9 +152,35 @@ namespace robot
                 { 
                     if (serialPort.IsOpen && serialPort.BytesToRead > 0)
                     {
-                        byte[] buffer = new byte[serialPort.BytesToRead];
-                        serialPort.Read(buffer, 0, buffer.Length);
-                        sharedData.SharedVariable = System.Text.Encoding.Default.GetString(buffer);
+                        int bytesToRead = serialPort.BytesToRead;
+                        byte[] buffer = new byte[bytesToRead];
+                        int bytesRead = serialPort.Read(buffer, 0, bytesToRead);
+
+                        int countZero = 0;
+                        bool ch03 = false;
+                        if (buffer.Length == 256)
+						{
+                            for (int i = 0; i < buffer.Length - 1; i++)
+                            {
+                                if (buffer[i] == 0x00)
+                                {
+                                    countZero++;
+                                }
+                                if (buffer[255] == 0x03 && countZero == 255)
+                                {
+                                    ch03 = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(countZero == 255 && ch03)
+						{
+                            sharedData.SharedVariable = System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        }
+                        else
+						{
+                            sharedData.SharedVariable = System.Text.Encoding.Default.GetString(buffer, 0, bytesRead);
+                        }
                     }
                 }
             }
@@ -285,11 +313,12 @@ namespace robot
 		// Funkcja wysyłania komend do robota
 		public void WriteToRobot(string cmd_to_send, int valToSend)
         {
-           // serialPort.DiscardInBuffer();
+            serialPort.DiscardInBuffer();
+            serialPort.DiscardOutBuffer();
             string fullCommand = cmd_to_send + valToSend.ToString()+ "\x03"; // Tworzenie pełnej komendy
             string sendingdata = robotCommunicationSend.SendData(fullCommand); // Wysyłanie komendy do robota
-            serialPort.DiscardInBuffer();
-            Thread.Sleep(8000);
+            
+            Thread.Sleep(4000);
             string resultFromPort = sharedData.SharedVariable;
             if (string.IsNullOrEmpty(resultFromPort))
             {
@@ -297,15 +326,18 @@ namespace robot
             }
             if(cmd_to_send != sOK)
 			{
-                string getDataFromString = resultFromPort.Substring(resultFromPort.IndexOf("\x03"), resultFromPort.Length);
-                if (getDataFromString.Contains("OK"))
-			    {
-                    //zwrócono prawidlowa wartosc
-                }
-                else
+                if(resultFromPort.Contains("\x03"))
 				{
-                    UpdateTextBox("\x09" + "WriteToRobot" + "\x09" + cmd_to_send + "\x09");
-				}
+                    string getDataFromString = resultFromPort.Substring(resultFromPort.IndexOf("\x03"), resultFromPort.Length);
+                    if (getDataFromString.Contains("OK"))
+                    {
+                        //zwrócono prawidlowa wartosc
+                    }
+                    else
+                    {
+                        UpdateTextBox("\x09" + "WriteToRobot" + "\x09" + cmd_to_send + "\x09");
+                    }
+                }
             }
             else
 			{
