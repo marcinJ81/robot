@@ -14,36 +14,16 @@ namespace robot
 		{
             serialPort = serialPortToSend;
         }
-        public string SendData(object valueForSend)
+        public string SendData(string valueForSend)
         {
-            int iterations = 1; // Liczba iteracji do wysłania
-            int sentIterations = 0; // Licznik wysłanych iteracji
-            if (valueForSend == null)
+            // Wątek wysyłający dane
+            if (serialPort.IsOpen)
             {
-                return string.Empty;
-            }
-            string textForSend = (string)valueForSend;
-            while (sentIterations < iterations)
-            {
-                // Wątek wysyłający dane
-                if (serialPort.IsOpen)
-                {
-                    // Generowanie losowej wartości 16-bitowej
-                    //ushort value = (ushort)new Random().Next(0, ushort.MaxValue);
-                    byte[] buffer = Encoding.UTF8.GetBytes(textForSend);
-                    // Konwersja wartości na tablicę bajtów
-
-
-                    // Wysłanie danych
-                    serialPort.Write(buffer, 0, buffer.Length);
-
-                    // Aktualizacja interfejsu użytkownika z innego wątku\\
-                    string infoToShow = BitConverter.ToString(buffer);
-                    string infoToShowEncoding = Encoding.ASCII.GetString(buffer);
-                  
-                    sentIterations++;
-                }
-               
+                byte[] buffer = Encoding.UTF8.GetBytes(valueForSend);
+                // Konwersja wartości na tablicę bajtów
+                // Wysłanie danych
+                serialPort.Write(buffer, 0, buffer.Length);
+                infoToShow = Encoding.ASCII.GetString(buffer);
             }
             return infoToShow;
         }

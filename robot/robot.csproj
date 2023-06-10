@@ -55,12 +55,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadFromSerial.cs" />
-    <Compile Include="RobotCommunication.cs" />
     <Compile Include="SendDateToSerial.cs" />
     <Compile Include="SFrames.cs" />
     <Compile Include="SharedData.cs" />
-    <Compile Include="TextToField.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

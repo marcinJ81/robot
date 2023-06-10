@@ -618,7 +618,7 @@
 			this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.74074F));
 			this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.25926F));
 			this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 148F));
-			this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 366F));
+			this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 368F));
 			this.tableLayoutPanel8.Controls.Add(this.rb_robotAuto, 0, 0);
 			this.tableLayoutPanel8.Controls.Add(this.rb_raobotManual, 0, 1);
 			this.tableLayoutPanel8.Controls.Add(this.rb_robotStart, 0, 2);
@@ -674,7 +674,7 @@
 			// rb_robotAlarm
 			// 
 			this.rb_robotAlarm.AutoSize = true;
-			this.rb_robotAlarm.Location = new System.Drawing.Point(136, 3);
+			this.rb_robotAlarm.Location = new System.Drawing.Point(135, 3);
 			this.rb_robotAlarm.Name = "rb_robotAlarm";
 			this.rb_robotAlarm.Size = new System.Drawing.Size(83, 17);
 			this.rb_robotAlarm.TabIndex = 3;
@@ -685,7 +685,7 @@
 			// rb_bypass
 			// 
 			this.rb_bypass.AutoSize = true;
-			this.rb_bypass.Location = new System.Drawing.Point(136, 44);
+			this.rb_bypass.Location = new System.Drawing.Point(135, 44);
 			this.rb_bypass.Name = "rb_bypass";
 			this.rb_bypass.Size = new System.Drawing.Size(59, 17);
 			this.rb_bypass.TabIndex = 4;
@@ -696,7 +696,7 @@
 			// rb_autoExt
 			// 
 			this.rb_autoExt.AutoSize = true;
-			this.rb_autoExt.Location = new System.Drawing.Point(136, 87);
+			this.rb_autoExt.Location = new System.Drawing.Point(135, 87);
 			this.rb_autoExt.Name = "rb_autoExt";
 			this.rb_autoExt.Size = new System.Drawing.Size(109, 17);
 			this.rb_autoExt.TabIndex = 5;
@@ -707,7 +707,7 @@
 			// rb_emergenctStop
 			// 
 			this.rb_emergenctStop.AutoSize = true;
-			this.rb_emergenctStop.Location = new System.Drawing.Point(266, 87);
+			this.rb_emergenctStop.Location = new System.Drawing.Point(264, 87);
 			this.rb_emergenctStop.Name = "rb_emergenctStop";
 			this.rb_emergenctStop.Size = new System.Drawing.Size(125, 17);
 			this.rb_emergenctStop.TabIndex = 6;
@@ -723,11 +723,11 @@
 			this.tableLayoutPanel9.Controls.Add(this.label1, 0, 0);
 			this.tableLayoutPanel9.Controls.Add(this.txb_robotStatus, 1, 0);
 			this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel9.Location = new System.Drawing.Point(414, 44);
+			this.tableLayoutPanel9.Location = new System.Drawing.Point(412, 44);
 			this.tableLayoutPanel9.Name = "tableLayoutPanel9";
 			this.tableLayoutPanel9.RowCount = 1;
 			this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel9.Size = new System.Drawing.Size(361, 37);
+			this.tableLayoutPanel9.Size = new System.Drawing.Size(363, 37);
 			this.tableLayoutPanel9.TabIndex = 7;
 			// 
 			// label1
@@ -737,25 +737,25 @@
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.label1.Location = new System.Drawing.Point(3, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(174, 37);
+			this.label1.Size = new System.Drawing.Size(175, 37);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Status programu robota";
 			// 
 			// txb_robotStatus
 			// 
 			this.txb_robotStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txb_robotStatus.Location = new System.Drawing.Point(183, 3);
+			this.txb_robotStatus.Location = new System.Drawing.Point(184, 3);
 			this.txb_robotStatus.Name = "txb_robotStatus";
-			this.txb_robotStatus.Size = new System.Drawing.Size(175, 20);
+			this.txb_robotStatus.Size = new System.Drawing.Size(176, 20);
 			this.txb_robotStatus.TabIndex = 1;
 			// 
 			// groupBox3
 			// 
 			this.groupBox3.Controls.Add(this.tableLayoutPanel10);
 			this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBox3.Location = new System.Drawing.Point(414, 87);
+			this.groupBox3.Location = new System.Drawing.Point(412, 87);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(361, 52);
+			this.groupBox3.Size = new System.Drawing.Size(363, 52);
 			this.groupBox3.TabIndex = 8;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Prędkośćrobota";
@@ -765,7 +765,7 @@
 			this.tableLayoutPanel10.ColumnCount = 3;
 			this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.13462F));
 			this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.86538F));
-			this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149F));
+			this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 151F));
 			this.tableLayoutPanel10.Controls.Add(this.textBox1, 1, 0);
 			this.tableLayoutPanel10.Controls.Add(this.btn_speedUp, 0, 0);
 			this.tableLayoutPanel10.Controls.Add(this.btn_speedDown, 2, 0);
@@ -774,7 +774,7 @@
 			this.tableLayoutPanel10.Name = "tableLayoutPanel10";
 			this.tableLayoutPanel10.RowCount = 1;
 			this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel10.Size = new System.Drawing.Size(355, 33);
+			this.tableLayoutPanel10.Size = new System.Drawing.Size(357, 33);
 			this.tableLayoutPanel10.TabIndex = 8;
 			// 
 			// textBox1

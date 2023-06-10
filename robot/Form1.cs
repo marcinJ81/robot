@@ -189,7 +189,7 @@ namespace robot
             ushort number = 0x1001; // Liczba szesnastkowa 0x1234
             int shiftedNumber = number << 2;
             ushort result = (ushort)shiftedNumber;  // przesunięcie o 2 bity w lewo
-            MessageBox.Show("Wynik: " + Convert.ToString(result, 2));
+           
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -287,7 +287,7 @@ namespace robot
         {
            // serialPort.DiscardInBuffer();
             string fullCommand = cmd_to_send + valToSend.ToString()+ "\x03"; // Tworzenie pełnej komendy
-            robotCommunicationSend.SendData(fullCommand); // Wysyłanie komendy do robota
+            string sendingdata = robotCommunicationSend.SendData(fullCommand); // Wysyłanie komendy do robota
 
             Thread.Sleep(8000);
             string resultFromPort = sharedData.SharedVariable;
@@ -297,7 +297,8 @@ namespace robot
             }
             if(cmd_to_send != sOK)
 			{
-                if(resultFromPort.Contains("OK"))
+                string getDataFromString = resultFromPort.Substring(resultFromPort.IndexOf("\x03"), resultFromPort.Length);
+                if (getDataFromString.Contains("OK"))
 			    {
                     //zwrócono prawidlowa wartosc
                 }
