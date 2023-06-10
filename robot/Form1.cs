@@ -158,8 +158,7 @@ namespace robot
 
                         int countZero = 0;
                         bool ch03 = false;
-                        if (buffer.Length == 10)
-                        //if (buffer.Length == 256)
+                        if (buffer.Length == 256)
                         {
                             for (int i = 0; i < buffer.Length - 1; i++)
                             {
@@ -167,14 +166,14 @@ namespace robot
                                 {
                                     countZero++;
                                 }
-                                if (buffer[9] == 0x03 && countZero == 9)
+                                if (buffer[255] == 0x03 && countZero == 255)
                                 {
                                     ch03 = true;
                                     break;
                                 }
                             }
                         }
-                        if(countZero == 9 && ch03)
+                        if(countZero == 255 && ch03)
 						{
                             sharedData.SharedVariable = System.Text.Encoding.UTF8.GetString(buffer, 0, bytesRead);
                         }
