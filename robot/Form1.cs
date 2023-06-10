@@ -158,6 +158,7 @@ namespace robot
 
                         int countZero = 0;
                         bool ch03 = false;
+                        string str4 = string.Join("", buffer.Select(b => b.ToString("X2")));
                         if (buffer.Length == 256)
                         {
                             for (int i = 0; i < buffer.Length - 1; i++)
