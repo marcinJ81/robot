@@ -159,27 +159,32 @@ namespace robot
                         int bytesRead = serialPort.Read(buffer, 0, bytesToRead);
 
                         int countZero = 0;
-                        sharedData.IsSpecialString = false;
                         string str4 = string.Join("", buffer.Select(b => b.ToString("X2")));
                         if (buffer.Length == 256)
                         {
                             for (int i = 0; i < buffer.Length - 1; i++)
                             {
-                                if (buffer[i] == 0x20)
+                                if (buffer[i] == 0x00)
                                 {
                                     countZero++;
                                 }
                                 if (buffer[255] == 0x03 && countZero == 255)
                                 {
                                     sharedData.IsSpecialString = true;
+                                    sharedData.Buffer = buffer;
                                     break;
                                 }
                             }
                         }
                         if (buffer[0] != 0x00 && buffer.Length > 1)
                         {
+                            sharedData.IsEmpty = false;
                             sharedData.SharedVariable = System.Text.Encoding.Default.GetString(buffer, 0, bytesRead);
                         }
+                        if (buffer.Length == 1)
+						{
+                            sharedData.IsEmpty = true;
+						}
                     }
                 }
             }
@@ -224,15 +229,15 @@ namespace robot
             // Zamknięcie portu szeregowego i zakończenie wątków
             shouldStopReading = true;
             serialPort.Close();
-            if(sendThread != null && sendThread.IsAlive)
+            if (sendThread != null && sendThread.IsAlive)
 			{
                 sendThread.Join();
             }
-            if(readFromport != null && readFromport.IsAlive)
+            if (readFromport != null && readFromport.IsAlive)
             {
                 readFromport.Join();
             }
-            if(backupThread != null && backupThread.IsAlive)
+            if (backupThread != null && backupThread.IsAlive)
 			{
                 backupThread.Join();
             }
@@ -274,35 +279,17 @@ namespace robot
 
             Thread.Sleep(4000);
             string resultFromPort = sharedData.SharedVariable;
-            if(cmd_to_send != sSF)
+            if (cmd_to_send != sSF)
 			{
                 return resultFromPort;
 			}
 			else
             {
-                //$sReturnedVal = _CommReadByteArray(DllStructGetPtr($aSF_Ret), 255, 0)
+                if(sharedData.Buffer.Length > 0)
+				{
+                    //$sReturnedVal = _CommReadByteArray(DllStructGetPtr($aSF_Ret), 255, 0)
+                }
             }
-            //// Oczekiwanie na odpowiedź i odczytanie wartości
-            //if (_CommReadString(ref sResult))
-            //{
-            //	// Sprawdzenie, czy otrzymana wartość jest poprawna
-            //	if (sResult.StartsWith(sOK))
-            //	{
-            //		sResult = sResult.Replace(sOK, string.Empty).Trim();
-            //		WriteToRobot(sOK); // Wysłanie potwierdzenia odbioru danych do robota
-            //	}
-            //	else
-            //	{
-            //		// Obsługa błędu odpowiedzi
-            //		sResult = string.Empty;
-            //	}
-            //}
-            //else
-            //{
-            //	// Obsługa błędu odczytu
-            //	sResult = string.Empty;
-            //}
-
             return string.Empty;
         }
 
@@ -313,7 +300,7 @@ namespace robot
             string sendingdata = robotCommunicationSend.SendData(sSF); // Wysyłanie komendy do robota
             Thread.Sleep(4000);
 
-            if(sharedData.IsSpecialString)
+            if (sharedData.IsSpecialString)
 			{
                 CLearBuffor();
                 robotCommunicationSend.SendData(sOK);
@@ -328,18 +315,28 @@ namespace robot
 		public void WriteToRobot(string cmd_to_send, int valToSend)
         {
             CLearBuffor();
+            string tmp = string.Empty;
             string fullCommand = cmd_to_send + valToSend.ToString()+ "\x03"; // Tworzenie pełnej komendy
             string sendingdata = robotCommunicationSend.SendData(fullCommand); // Wysyłanie komendy do robota
             
             Thread.Sleep(4000);
+            //petla zabezpiecza przed wystapieniem pustej wartosci w buforze
+            //a wlasciwie pojedynczego znaku
+            //poki jest jeden kznak to isEmpty = true, petla sobie bryka
+            //jak w buforze znjadzie sie inna wartosc isEmpty ustawia sie na false
+            //i watek idzie dalej
+            while(sharedData.IsEmpty == true)
+			{
+                tmp = "";
+			}
             string resultFromPort = sharedData.SharedVariable;
             if (string.IsNullOrEmpty(resultFromPort))
             {
                 return;
             }
-            if(cmd_to_send != sOK)
+            if (cmd_to_send != sOK)
 			{
-                if(resultFromPort.Contains("\x03"))
+                if (resultFromPort.Contains("\x03"))
 				{
                     string getDataFromString = resultFromPort.Substring(resultFromPort.IndexOf("\x03"), resultFromPort.Length);
                     if (getDataFromString.Contains("OK"))
